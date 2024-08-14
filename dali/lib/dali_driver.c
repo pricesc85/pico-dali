@@ -102,7 +102,8 @@ void daliInit(void)
 //    k_timer_init (&daliTimer, dali_periodic_fnc, NULL       );//init zephyr timer for DALI scheduling 
 //    k_timer_start(&daliTimer, K_MSEC(100)      , K_MSEC(100));//start zephyr timer for DAIL scheduling
 #else
-    spi_init(spi_default, 19200);
+    spi_init(spi_default, 76800);//19200);
+    spi_set_format(spi_default, 8, SPI_CPOL_1, SPI_CPHA_1, SPI_MSB_FIRST);
     gpio_set_function(PICO_DEFAULT_SPI_RX_PIN, GPIO_FUNC_SPI);
     gpio_set_function(PICO_DEFAULT_SPI_TX_PIN, GPIO_FUNC_SPI);
     gpio_init(PICO_DEFAULT_SPI_CSN_PIN);

@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include "dali.h"
+#include "dali_driver.h"
+#include "dali_commands.h"
 
 // Pico W devices use a GPIO on the WIFI chip for the LED,
 // so when building for Pico W, CYW43_WL_GPIO_LED_PIN will be defined
@@ -40,11 +43,14 @@ int main() {
     int rc = pico_led_init();
     hard_assert(rc == PICO_OK);
     stdio_init_all();
+    initDALI();
     while (true) {
         pico_set_led(true);
-        sleep_ms(LED_DELAY_MS);
+        sleep_ms(1000);
         pico_set_led(false);
-        sleep_ms(LED_DELAY_MS);
-        printf("Hello, world!\n");
+        sleep_ms(1000);
+        printf("Sending DALI ping.\n");
+        sendSpecialCmdNoReply(0,evPing);
+        transmitForwardFrame();
     }
 }

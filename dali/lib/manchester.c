@@ -13,10 +13,10 @@
 
 #define RX_START_INDEX 38//first TE in which receive data may start
 
-#define MANCHESTER_ZERO ((uint16_t)0x00ff)
-#define MANCHESTER_ONE  ((uint16_t)0xff00)
+#define MANCHESTER_ZERO ((uint16_t)0xff00)//((uint16_t)0x00ff)
+#define MANCHESTER_ONE  ((uint16_t)0x00ff)//((uint16_t)0xff00)
 
-#define MANCHESTER_IDLE ((uint16_t)0xffff)
+#define MANCHESTER_IDLE ((uint16_t)0x0000)//((uint16_t)0xffff)
 
 uint8_t alignedbuf    [22]     =   {0 };
 uint8_t alignedbufcopy[22]     =   {0 };
@@ -56,10 +56,10 @@ void manchesterEncodeMsg(uint8_t * msgtoEncode, uint8_t msgLength, uint8_t *manc
      msgtoEncode     += 1;
   }
   /*Encode stop: 4 idle high TEs*/
-  *(manchesterBuffer    ) = 0xff;
-  *(manchesterBuffer + 1) = 0xff;
-  *(manchesterBuffer + 2) = 0xff;
-  *(manchesterBuffer + 3) = 0xff;
+  *(manchesterBuffer    ) = 0x00;//0xff;
+  *(manchesterBuffer + 1) = 0x00;//0xff;
+  *(manchesterBuffer + 2) = 0x00;//0xff;
+  *(manchesterBuffer + 3) = 0x00;//0xff;
 }
 
 

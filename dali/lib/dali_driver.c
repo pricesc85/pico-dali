@@ -82,7 +82,7 @@ void spi_event_handler(void)
 
 void daliInit(void)
 {
-    memset(&uEncodedFwdFrame,0xff,sizeof(uEncodedFwdFrame));
+    memset(&uEncodedFwdFrame,0x00,sizeof(uEncodedFwdFrame));
 #ifdef NRF    
     nrfx_spim_config_t spi_config = NRFX_SPIM_DEFAULT_CONFIG(SPI_SCK_PIN ,
                                                              SPI_MOSI_PIN,
@@ -102,7 +102,7 @@ void daliInit(void)
 //    k_timer_init (&daliTimer, dali_periodic_fnc, NULL       );//init zephyr timer for DALI scheduling 
 //    k_timer_start(&daliTimer, K_MSEC(100)      , K_MSEC(100));//start zephyr timer for DAIL scheduling
 #else
-    spi_init(spi_default, 76800);//19200);
+    spi_init(spi_default, 19200);
     spi_set_format(spi_default, 8, SPI_CPOL_1, SPI_CPHA_1, SPI_MSB_FIRST);
     gpio_set_function(PICO_DEFAULT_SPI_RX_PIN, GPIO_FUNC_SPI);
     gpio_set_function(PICO_DEFAULT_SPI_TX_PIN, GPIO_FUNC_SPI);
@@ -159,7 +159,7 @@ void transmitDaliCmdNoReply(uForwardFrame_t *ufwdFrame)
          0x00                                                 ,
          sizeof(uRawDaliRXBuffer)                             );
   memset(&uEncodedFwdFrame.sEncodedFwdFrame.encodedData[0]    ,
-         0xff                                                 ,
+         0x00                                                 ,
          sizeof(uEncodedFwdFrame.sEncodedFwdFrame.encodedData));
 
   manchesterEncodeMsg((uint8_t *)ufwdFrame                             ,
@@ -177,7 +177,7 @@ void transmitDaliCmdWithReply(uForwardFrame_t *ufwdFrame)
          0x00                                 ,
          sizeof(uRawDaliRXBuffer.sRXWithReply));
   memset(&uEncodedFwdFrame.sEncodedFwdFrame.encodedData[0]    ,
-         0xff                                                 ,
+         0x00                                                 ,
          sizeof(uEncodedFwdFrame.sEncodedFwdFrame.encodedData));
   manchesterEncodeMsg((uint8_t *)ufwdFrame                             ,
                       2                                                ,
@@ -195,7 +195,7 @@ void transmitDaliCmdTwice(uForwardFrame_t *fwdFrame)
          0x00                                 ,
          sizeof(uRawDaliRXBuffer.sRXSendTwice));
   memset(&uEncodedFwdFrame.sEncodedFwdFrame.encodedData[0]    ,
-         0xff                                                 ,
+         0x00                                                 ,
          sizeof(uEncodedFwdFrame.sEncodedFwdFrame.encodedData));
   manchesterEncodeMsg((uint8_t *)fwdFrame,2,&uEncodedFwdFrame.s2xFwdFrame.sEncodedFwdFrame1.encodedData[0]);
   manchesterEncodeMsg((uint8_t *)fwdFrame,2,&uEncodedFwdFrame.s2xFwdFrame.sEncodedFwdFrame2.encodedData[0]);//repeat

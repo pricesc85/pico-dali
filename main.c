@@ -44,13 +44,30 @@ int main() {
     hard_assert(rc == PICO_OK);
     stdio_init_all();
     initDALI();
+    uint8_t addr = 0;
+    sleep_ms(5000);
     while (true) {
         pico_set_led(true);
-        sleep_ms(1000);
+        sleep_ms(125);
         pico_set_led(false);
-        sleep_ms(1000);
+        sleep_ms(125);
         printf("Sending DALI ping.\n");
-        sendSpecialCmdNoReply(0,evPing);
-        transmitForwardFrame();
+        if(addr < 64)
+        {
+            sendStandardCmdWithReply(addr,evBroadcastAll,evQueryControlGearPresent);
+            transmitForwardFrame();
+            addr++;
+        }
+        if(addr == 64)
+        {
+            sendStandardCmdWithReply(addr,evBroadcastUnaddressed,evQueryControlGearPresent);
+            transmitForwardFrame();
+            addr++;
+        }
+        if(addr == 65)
+        {
+
+        }
+        
     }
 }
